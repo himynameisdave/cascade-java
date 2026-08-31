@@ -18,91 +18,110 @@
     <dependency>
       <groupId>com.cascade</groupId>
       <artifactId>cascade-core</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- servlet container -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
+      <version>5.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-core</artifactId>
+      <version>10.0.0-M1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-el</artifactId>
+      <version>10.0.0-M1</version>
     </dependency>
 
     <!-- authentication and authorization -->
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-core</artifactId>
+      <version>2.0.0-alpha-2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-web</artifactId>
+      <version>2.0.0-alpha-2</version>
     </dependency>
     <dependency>
       <groupId>com.nimbusds</groupId>
       <artifactId>nimbus-jose-jwt</artifactId>
+      <version>9.35</version>
     </dependency>
     <dependency>
       <groupId>net.minidev</groupId>
       <artifactId>json-smart</artifactId>
+      <version>2.4.7</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk18on</artifactId>
+      <version>1.72</version>
     </dependency>
 
     <!-- outbound webhook delivery -->
     <dependency>
       <groupId>org.asynchttpclient</groupId>
       <artifactId>async-http-client</artifactId>
+      <version>2.12.3</version>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-handler</artifactId>
+      <version>4.1.68.Final</version>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-codec-http</artifactId>
+      <version>4.1.68.Final</version>
     </dependency>
 
     <!-- notifications and scheduling -->
     <dependency>
       <groupId>com.sun.mail</groupId>
       <artifactId>jakarta.mail</artifactId>
+      <version>1.6.7</version>
     </dependency>
     <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
+      <version>2.3.0</version>
     </dependency>
 
     <!-- report and attachment handling -->
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
+      <version>2.0.15</version>
     </dependency>
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi-ooxml</artifactId>
+      <version>5.2.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-core</artifactId>
+      <version>2.4.0</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
+      <version>20220924</version>
     </dependency>
 
     <!-- production datasource -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
+      <version>42.3.2</version>
       <scope>runtime</scope>
     </dependency>
 
@@ -110,10 +129,12 @@
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
+      <version>2.14.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.14.1</version>
     </dependency>
   </dependencies>
 

@@ -118,12 +118,29 @@ development secret, and the JWT service refuses a key shorter than 32 bytes.
 
 ## Dependency upgrade backlog
 
-Every version is pinned in the parent POM's `<dependencyManagement>`, so the
-module POMs carry no inline versions and an upgrade is a one-line change.
+Every version is declared **inline, as a literal, in the module POM that uses
+it** — no `<dependencyManagement>`, no `${property}` indirection, and each
+version string appears exactly once in the repository.
+
+That is a deliberate reversal of the usual Maven convention. Composition
+analysis that reads the POMs statically, without running Maven — which is what
+the FOSSA GitHub App does — does not reliably resolve a version through a
+parent's dependencyManagement and property chain, and a dependency recorded
+*without* a version matches no advisory at all. Inline literals also give an
+automated upgrade exactly one place to patch.
 
 Verified against [OSV](https://osv.dev) and Maven Central: **46 declared direct
 dependencies, 36 of them carrying advisories, 119 distinct CVEs, and every
 pinned coordinate confirmed to exist on Maven Central.**
+
+### What a static scan will and will not show
+
+- **Direct dependencies only.** Maven has no lockfile, so a static POM read
+  cannot compute the transitive closure; that needs a real `mvn dependency:tree`
+  via the FOSSA CLI in CI. Expect roughly 50 dependencies, not several hundred.
+- **The four `com.cascade:*` modules report as unanalyzable.** They are this
+  repository's own artifacts and are not published to any registry, so there is
+  nothing for the scanner to fetch. That warning is expected and harmless.
 
 ### Advisories whose fix is a pre-release
 
