@@ -1,0 +1,39 @@
+# Cascade server configuration.
+# Environment variables (PORT, JWT_SECRET, JDBC_URL, SMTP_HOST,
+# WEBHOOK_ALLOWLIST, ...) take precedence over anything set here.
+
+port: 4000
+tokenTtlHours: 12
+uploadDir: uploads
+maxUploadBytes: 8388608
+
+datasource:
+  url: "jdbc:h2:./data/cascade;AUTO_SERVER=TRUE"
+  user: sa
+  password: ""
+
+webhookAllowlist:
+  - localhost
+  - hooks.example.com
+
+smtp:
+  host: localhost
+  port: 1025
+  from: cascade@example.com
+
+features:
+  webhooks: true
+  reports: true
+  digests: true
+  csvImport: true
+
+board:
+  columns:
+    - backlog
+    - todo
+    - in_progress
+    - in_review
+    - done
+  wipLimits:
+    in_progress: 5
+    in_review: 3
