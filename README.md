@@ -144,22 +144,39 @@ pinned coordinate confirmed to exist on Maven Central.**
 
 ### Advisories whose fix is a pre-release
 
-These four are the reason this repository exists alongside the npm and Cargo
-ports. The first fixed version is a milestone, alpha or release-candidate build,
-so an automated upgrade has to be willing to move to a non-final release — or
-to recognise that no stable fix exists on that branch and say so.
+These four artifacts are the reason this repository exists alongside the npm and
+Cargo ports: the version OSV names as the fix is a milestone, alpha or
+release-candidate build rather than a final release.
 
-| Artifact | Pinned | First fixed in | Kind | Example advisory |
+Only one of them is *strictly* pre-release-only. For the other three, OSV also
+lists stable fixed versions — but on **older** branches, which is a downgrade
+from the pin, not an upgrade. So on the branch the project is actually on, the
+advisory's named fix is a pre-release in every case.
+
+| Artifact | Pinned | Advisory-named fix | Stable fixes OSV lists | Lowest stable that also has the fix |
 | --- | --- | --- | --- | --- |
-| `org.apache.tomcat.embed:tomcat-embed-core` | 10.0.0-M1 | `10.0.0-M5` | milestone | CVE-2020-9484, CVE-2020-11996 |
-| `org.apache.shiro:shiro-core` | 2.0.0-alpha-2 | `2.0.0-alpha4` | alpha | CVE-2023-46749 |
-| `org.apache.shiro:shiro-web` | 2.0.0-alpha-2 | `2.0.0-alpha-3` | alpha | CVE-2023-34478, CVE-2023-46750 |
-| `org.hibernate.validator:hibernate-validator` | 7.0.0.Alpha1 | `7.0.0.CR1` | release candidate | CVE-2025-35036 |
+| `org.hibernate.validator:hibernate-validator` | 7.0.0.Alpha1 | `7.0.0.CR1`, `6.2.0.CR1` | **none — pre-release only** | `7.0.0.Final` |
+| `org.apache.tomcat.embed:tomcat-embed-core` | 10.0.0-M1 | `10.0.0-M5`, `10.0.0-M10` | 9.0.x / 8.5.x / 7.0.x (older branches) | `10.0.11` |
+| `org.apache.shiro:shiro-core` | 2.0.0-alpha-2 | `2.0.0-alpha4` | 1.13.0 (older branch) | `2.0.0` |
+| `org.apache.shiro:shiro-web` | 2.0.0-alpha-2 | `2.0.0-alpha-3`, `2.0.0-alpha-4` | 1.12.0, 1.13.0 (older branches) | `2.0.0` |
 
-Note that `tomcat-embed-core 10.0.0-M1` also carries advisories fixed at
-`10.0.0-M10`, so a single artifact needs more than one pre-release step to
-become clean — useful for testing whether a bot picks the *lowest* sufficient
-fix or jumps to latest.
+The last column is the interesting part. In every case a later *stable* release
+on the same branch also contains the fix — it simply sits above the boundary the
+advisory records. So the behaviour worth testing is whether an automated upgrade
+
+- proposes the literal advisory-named version (a pre-release), or
+- computes the lowest **stable** release at or above that boundary, or
+- refuses because the named fix is not a final release.
+
+Two further wrinkles:
+
+- `tomcat-embed-core` at 10.0.0-M1 carries six advisories with boundaries at
+  `10.0.0-M5`, `10.0.0-M10`, `10.0.2` and `10.0.27`. No single pre-release
+  clears them all; the lowest version that does is `10.0.27`. Useful for
+  checking whether a bot picks the lowest sufficient fix or jumps to latest.
+- `shiro-core` needs `2.2.1` to clear all four of its advisories, and
+  `shiro-web` needs `2.2.0` — so "upgrade to the first stable" is not enough
+  for either.
 
 ### `cascade-core`
 
