@@ -129,22 +129,24 @@ parent's dependencyManagement and property chain, and a dependency recorded
 *without* a version matches no advisory at all. Inline literals also give an
 automated upgrade exactly one place to patch.
 
-Verified against [OSV](https://osv.dev) and Maven Central: **46 declared direct
-dependencies, 36 of them carrying advisories, 119 distinct CVEs, and every
+Verified against [OSV](https://osv.dev) and Maven Central: **65 declared direct
+dependencies, 55 of them carrying advisories, 159 distinct CVEs, and every
 pinned coordinate confirmed to exist on Maven Central.**
 
 ### What a static scan will and will not show
 
 - **Direct dependencies only.** Maven has no lockfile, so a static POM read
   cannot compute the transitive closure; that needs a real `mvn dependency:tree`
-  via the FOSSA CLI in CI. Expect roughly 50 dependencies, not several hundred.
+  via the FOSSA CLI in CI. Expect roughly 70 dependencies, not several hundred.
+  Every dependency here is direct by design, because an automated fix can only
+  raise a version that is actually declared in a POM.
 - **The four `com.cascade:*` modules report as unanalyzable.** They are this
   repository's own artifacts and are not published to any registry, so there is
   nothing for the scanner to fetch. That warning is expected and harmless.
 
 ### Advisories whose fix is a pre-release
 
-These four artifacts are the reason this repository exists alongside the npm and
+These five artifacts are the reason this repository exists alongside the npm and
 Cargo ports: the version OSV names as the fix is a milestone, alpha or
 release-candidate build rather than a final release.
 
@@ -159,6 +161,7 @@ advisory's named fix is a pre-release in every case.
 | `org.apache.tomcat.embed:tomcat-embed-core` | 10.0.0-M1 | `10.0.0-M5`, `10.0.0-M10` | 9.0.x / 8.5.x / 7.0.x (older branches) | `10.0.11` |
 | `org.apache.shiro:shiro-core` | 2.0.0-alpha-2 | `2.0.0-alpha4` | 1.13.0 (older branch) | `2.0.0` |
 | `org.apache.shiro:shiro-web` | 2.0.0-alpha-2 | `2.0.0-alpha-3`, `2.0.0-alpha-4` | 1.12.0, 1.13.0 (older branches) | `2.0.0` |
+| `org.apache.tika:tika-parsers` | 1.27 | `2.0.0-BETA` | 1.28.4 | `1.28.4` |
 
 The last column is the interesting part. In every case a later *stable* release
 on the same branch also contains the fix — it simply sits above the boundary the
@@ -182,44 +185,63 @@ Two further wrinkles:
 
 | Artifact | Pinned | Fixed in | CVEs | Pre-release fix | Used for |
 | --- | --- | --- | --- | --- | --- |
+| `org.apache.xmlgraphics:batik-transcoder` | 1.14 | 1.17 | 1 | — | SVG diagram rendering |
 | `commons-beanutils:commons-beanutils` | 1.9.3 | 1.11.0 | 3 | — | dynamic property access |
 | `commons-collections:commons-collections` | 3.2.1 | 3.2.2 | 2 | — | legacy collection helpers |
 | `org.apache.commons:commons-compress` | 1.21 | 1.26.0 | 2 | — | attachment archives |
 | `org.apache.commons:commons-configuration2` | 2.7 | 2.15.0 | 4 | — | layered configuration |
 | `commons-io:commons-io` | 2.6 | 2.14.0 | 2 | — | file and stream helpers |
-| `org.apache.commons:commons-lang3` | 3.12.0 | 3.18.0 | 1 | — | string and object utilities |
-| `org.apache.commons:commons-text` | 1.9 | 1.10.0 | 1 | — | text similarity and escaping |
+| `org.apache.commons:commons-lang3` | 3.12.0 | 3.18.0 | 1 | — | string utilities |
+| `org.apache.commons:commons-text` | 1.9 | 1.10.0 | 1 | — | text escaping |
 | `org.dom4j:dom4j` | 2.1.1 | 2.1.3 | 1 | — | Jira XML import |
 | `com.google.guava:guava` | 30.1.1-jre | 32.0.0-android | 2 | — | collections and caching |
 | `com.h2database:h2` | 2.1.210 | 2.2.220 | 1 | — | embedded database |
 | `org.hibernate.validator:hibernate-validator` | 7.0.0.Alpha1 | 7.0.0.CR1 | 1 | **yes** | bean validation |
 | `com.fasterxml.jackson.core:jackson-databind` | 2.13.2 | 3.1.4 | 8 | — | JSON serialization |
+| `org.codehaus.jackson:jackson-mapper-asl` | 1.9.13 | — | 2 | — | legacy JSON import |
+| `org.jdom:jdom2` | 2.0.6 | 2.0.6.1 | 1 | — | legacy XML import |
+| `com.jayway.jsonpath:json-path` | 2.7.0 | 2.9.0 | 1 | — | saved-filter expressions |
 | `org.jsoup:jsoup` | 1.15.2 | 1.23.1 | 2 | — | HTML sanitization |
 | `org.yaml:snakeyaml` | 1.30 | 2.0 | 7 | — | YAML configuration |
+| `org.apache.tika:tika-parsers` | 1.27 | 2.0.0-ALPHA | 2 | **yes** | attachment text extraction |
 | `xerces:xercesImpl` | 2.12.0 | 2.12.2 | 2 | — | XML parsing |
 | `com.thoughtworks.xstream:xstream` | 1.4.19 | 1.4.21 | 3 | — | XML object mapping |
+| `net.lingala.zip4j:zip4j` | 2.9.0 | 2.11.3 | 2 | — | attachment archives |
 
 ### `cascade-api`
 
 | Artifact | Pinned | Fixed in | CVEs | Pre-release fix | Used for |
 | --- | --- | --- | --- | --- | --- |
+| `org.apache.activemq:activemq-client` | 5.16.3 | 6.2.4 | 4 | — | JMS event publishing |
 | `org.asynchttpclient:async-http-client` | 2.12.3 | 3.0.11 | 4 | — | webhook delivery |
 | `org.bouncycastle:bcprov-jdk18on` | 1.72 | 1.84 | 7 | — | cryptography provider |
+| `commons-httpclient:commons-httpclient` | 3.1 | — | 1 | — | legacy webhook client |
+| `org.owasp.esapi:esapi` | 2.2.0.0 | 2.6.0.0 | 2 | — | output encoding |
+| `com.hazelcast:hazelcast` | 5.1 | 5.3.5 | 5 | — | clustered cache |
+| `org.hsqldb:hsqldb` | 2.5.0 | 2.7.1 | 1 | — | alternative embedded datasource |
 | `com.sun.mail:jakarta.mail` | 1.6.7 | 2.0.2 | 1 | — | notification email |
 | `org.json:json` | 20220924 | 20231013 | 2 | — | webhook payload building |
 | `net.minidev:json-smart` | 2.4.7 | 2.4.9 | 1 | — | JOSE JSON parsing |
+| `org.apache.kafka:kafka-clients` | 2.8.1 | 4.1.2 | 3 | — | analytics event stream |
+| `org.keycloak:keycloak-core` | 21.1.1 | 26.0.6 | 8 | — | SSO identity model |
 | `org.apache.logging.log4j:log4j-core` | 2.14.1 | 2.25.4 | 7 | — | server logging |
+| `mysql:mysql-connector-java` | 8.0.27 | 8.0.28 | 2 | — | alternative JDBC driver |
 | `io.netty:netty-codec-http` | 4.1.68.Final | 4.2.17.Final | 21 | — | webhook HTTP codec |
 | `io.netty:netty-handler` | 4.1.68.Final | 4.2.15.Final | 4 | — | webhook transport |
 | `com.nimbusds:nimbus-jose-jwt` | 9.35 | 10.0.2 | 2 | — | JWT session tokens |
+| `org.eclipse.jgit:org.eclipse.jgit` | 5.13.0.202109080827-r | 7.2.1.202505142326-r | 2 | — | commit-to-issue linking |
+| `org.pac4j:pac4j-core` | 4.5.5 | 6.4.1 | 1 | — | SSO client profiles |
 | `org.apache.pdfbox:pdfbox` | 2.0.15 | 2.0.24 | 4 | — | PDF report export |
 | `org.apache.poi:poi-ooxml` | 5.2.2 | 5.4.0 | 1 | — | XLSX export |
 | `org.postgresql:postgresql` | 42.3.2 | 42.7.11 | 5 | — | production JDBC driver |
 | `org.quartz-scheduler:quartz` | 2.3.0 | 2.3.2 | 1 | — | scheduled digests |
 | `org.apache.shiro:shiro-core` | 2.0.0-alpha-2 | 3.0.0-alpha-2 | 4 | **yes** | password hashing |
 | `org.apache.shiro:shiro-web` | 2.0.0-alpha-2 | 3.0.0-alpha-2 | 3 | **yes** | servlet security filters |
+| `org.apache.solr:solr-solrj` | 8.11.1 | 9.4.1 | 1 | — | search index client |
 | `org.apache.tika:tika-core` | 2.4.0 | 3.2.2 | 1 | — | attachment type detection |
 | `org.apache.tomcat.embed:tomcat-embed-core` | 10.0.0-M1 | 10.0.0-M10 | 6 | **yes** | embedded servlet container |
+| `org.apache.velocity:velocity` | 1.7 | — | 1 | — | notification email templates |
+| `org.apache.santuario:xmlsec` | 2.2.3 | 3.0.3 | 1 | — | SAML assertion signatures |
 
 ### `cascade-cli`
 

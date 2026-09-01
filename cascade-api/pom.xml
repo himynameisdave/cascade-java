@@ -136,6 +136,98 @@
       <artifactId>log4j-slf4j-impl</artifactId>
       <version>2.14.1</version>
     </dependency>
+    <!-- SSO identity model -->
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-core</artifactId>
+      <version>21.1.1</version>
+    </dependency>
+
+    <!-- SSO client profiles -->
+    <dependency>
+      <groupId>org.pac4j</groupId>
+      <artifactId>pac4j-core</artifactId>
+      <version>4.5.5</version>
+    </dependency>
+
+    <!-- SAML assertion signatures -->
+    <dependency>
+      <groupId>org.apache.santuario</groupId>
+      <artifactId>xmlsec</artifactId>
+      <version>2.2.3</version>
+    </dependency>
+
+    <!-- search index client -->
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-solrj</artifactId>
+      <version>8.11.1</version>
+    </dependency>
+
+    <!-- clustered cache -->
+    <dependency>
+      <groupId>com.hazelcast</groupId>
+      <artifactId>hazelcast</artifactId>
+      <version>5.1</version>
+    </dependency>
+
+    <!-- JMS event publishing -->
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-client</artifactId>
+      <version>5.16.3</version>
+    </dependency>
+
+    <!-- analytics event stream -->
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>2.8.1</version>
+    </dependency>
+
+    <!-- commit-to-issue linking -->
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>5.13.0.202109080827-r</version>
+    </dependency>
+
+    <!-- notification email templates -->
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.7</version>
+    </dependency>
+
+    <!-- output encoding -->
+    <dependency>
+      <groupId>org.owasp.esapi</groupId>
+      <artifactId>esapi</artifactId>
+      <version>2.2.0.0</version>
+    </dependency>
+
+    <!-- legacy webhook client -->
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1</version>
+    </dependency>
+
+    <!-- alternative JDBC driver -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.27</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- alternative embedded datasource -->
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.5.0</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 
   <build>
