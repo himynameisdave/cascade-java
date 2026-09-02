@@ -1,0 +1,211 @@
+# Explicitly declared dependencies.
+#
+# Everything listed here is already declared in pom.xml. The duplication is
+# deliberate: static pom.xml analysis reports this project's own artifact as the
+# only direct dependency and puts everything it declares one level below, as
+# transitive, which hides all of it from tooling that only upgrades direct
+# dependencies.
+#
+# `referenced-dependencies` is the documented way to state "this project depends
+# on these packages" independently of what a build-system analyzer infers, so
+# these entries should be attributed to the project itself.
+#
+# Keep this list in step with pom.xml. Both are pinned older than current on
+# purpose; see "Dependency upgrade backlog" in README.md.
+
+referenced-dependencies:
+  - type: maven
+    name: ch.qos.logback:logback-classic
+    version: "1.2.11"
+  - type: maven
+    name: com.fasterxml.jackson.core:jackson-databind
+    version: "2.13.2"
+  - type: maven
+    name: com.fasterxml.jackson.datatype:jackson-datatype-jsr310
+    version: "2.13.2"
+  - type: maven
+    name: com.google.code.gson:gson
+    version: "2.8.6"
+  - type: maven
+    name: com.google.guava:guava
+    version: "30.1.1-jre"
+  - type: maven
+    name: com.h2database:h2
+    version: "2.1.210"
+  - type: maven
+    name: com.hazelcast:hazelcast
+    version: "5.1"
+  - type: maven
+    name: com.jayway.jsonpath:json-path
+    version: "2.7.0"
+  - type: maven
+    name: com.nimbusds:nimbus-jose-jwt
+    version: "9.35"
+  - type: maven
+    name: com.opencsv:opencsv
+    version: "4.6"
+  - type: maven
+    name: com.sun.mail:jakarta.mail
+    version: "1.6.7"
+  - type: maven
+    name: com.thoughtworks.xstream:xstream
+    version: "1.4.19"
+  - type: maven
+    name: com.zaxxer:HikariCP
+    version: "4.0.3"
+  - type: maven
+    name: commons-beanutils:commons-beanutils
+    version: "1.9.3"
+  - type: maven
+    name: commons-collections:commons-collections
+    version: "3.2.1"
+  - type: maven
+    name: commons-httpclient:commons-httpclient
+    version: "3.1"
+  - type: maven
+    name: commons-io:commons-io
+    version: "2.6"
+  - type: maven
+    name: info.picocli:picocli
+    version: "4.6.3"
+  - type: maven
+    name: io.netty:netty-codec-http
+    version: "4.1.68.Final"
+  - type: maven
+    name: io.netty:netty-handler
+    version: "4.1.68.Final"
+  - type: maven
+    name: jakarta.servlet:jakarta.servlet-api
+    version: "5.0.0"
+  - type: maven
+    name: mysql:mysql-connector-java
+    version: "8.0.27"
+  - type: maven
+    name: net.lingala.zip4j:zip4j
+    version: "2.9.0"
+  - type: maven
+    name: net.minidev:json-smart
+    version: "2.4.7"
+  - type: maven
+    name: org.apache.activemq:activemq-client
+    version: "5.16.3"
+  - type: maven
+    name: org.apache.commons:commons-compress
+    version: "1.21"
+  - type: maven
+    name: org.apache.commons:commons-configuration2
+    version: "2.7"
+  - type: maven
+    name: org.apache.commons:commons-lang3
+    version: "3.12.0"
+  - type: maven
+    name: org.apache.commons:commons-text
+    version: "1.9"
+  - type: maven
+    name: org.apache.httpcomponents.client5:httpclient5
+    version: "5.1.3"
+  - type: maven
+    name: org.apache.kafka:kafka-clients
+    version: "2.8.1"
+  - type: maven
+    name: org.apache.logging.log4j:log4j-core
+    version: "2.14.1"
+  - type: maven
+    name: org.apache.logging.log4j:log4j-slf4j-impl
+    version: "2.14.1"
+  - type: maven
+    name: org.apache.pdfbox:pdfbox
+    version: "2.0.15"
+  - type: maven
+    name: org.apache.poi:poi-ooxml
+    version: "5.2.2"
+  - type: maven
+    name: org.apache.santuario:xmlsec
+    version: "2.2.3"
+  - type: maven
+    name: org.apache.shiro:shiro-core
+    version: "2.0.0-alpha-2"
+  - type: maven
+    name: org.apache.shiro:shiro-web
+    version: "2.0.0-alpha-2"
+  - type: maven
+    name: org.apache.solr:solr-solrj
+    version: "8.11.1"
+  - type: maven
+    name: org.apache.tika:tika-core
+    version: "2.4.0"
+  - type: maven
+    name: org.apache.tika:tika-parsers
+    version: "1.27"
+  - type: maven
+    name: org.apache.tomcat.embed:tomcat-embed-core
+    version: "10.0.0-M1"
+  - type: maven
+    name: org.apache.tomcat.embed:tomcat-embed-el
+    version: "10.0.0-M1"
+  - type: maven
+    name: org.apache.velocity:velocity
+    version: "1.7"
+  - type: maven
+    name: org.apache.xmlgraphics:batik-transcoder
+    version: "1.14"
+  - type: maven
+    name: org.asynchttpclient:async-http-client
+    version: "2.12.3"
+  - type: maven
+    name: org.bouncycastle:bcprov-jdk18on
+    version: "1.72"
+  - type: maven
+    name: org.codehaus.jackson:jackson-mapper-asl
+    version: "1.9.13"
+  - type: maven
+    name: org.commonmark:commonmark
+    version: "0.21.0"
+  - type: maven
+    name: org.dom4j:dom4j
+    version: "2.1.1"
+  - type: maven
+    name: org.eclipse.jgit:org.eclipse.jgit
+    version: "5.13.0.202109080827-r"
+  - type: maven
+    name: org.glassfish:jakarta.el
+    version: "4.0.1"
+  - type: maven
+    name: org.hibernate.validator:hibernate-validator
+    version: "7.0.0.Alpha1"
+  - type: maven
+    name: org.hsqldb:hsqldb
+    version: "2.5.0"
+  - type: maven
+    name: org.jdom:jdom2
+    version: "2.0.6"
+  - type: maven
+    name: org.json:json
+    version: "20220924"
+  - type: maven
+    name: org.jsoup:jsoup
+    version: "1.15.2"
+  - type: maven
+    name: org.keycloak:keycloak-core
+    version: "21.1.1"
+  - type: maven
+    name: org.owasp.esapi:esapi
+    version: "2.2.0.0"
+  - type: maven
+    name: org.pac4j:pac4j-core
+    version: "4.5.5"
+  - type: maven
+    name: org.postgresql:postgresql
+    version: "42.3.2"
+  - type: maven
+    name: org.quartz-scheduler:quartz
+    version: "2.3.0"
+  - type: maven
+    name: org.slf4j:slf4j-api
+    version: "1.7.36"
+  - type: maven
+    name: org.yaml:snakeyaml
+    version: "1.30"
+  - type: maven
+    name: xerces:xercesImpl
+    version: "2.12.0"
