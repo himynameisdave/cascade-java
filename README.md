@@ -154,15 +154,35 @@ Two related traps, both also fixed:
 - **Two SLF4J bindings.** `log4j-slf4j-impl` and `logback-classic` were fine in
   separate modules but conflict in one artifact, so logback is now test-scoped.
 
-### What a static scan will and will not show
+### Getting dependencies reported as Direct
 
-- **Direct dependencies only.** Maven has no lockfile, so a static POM read
-  cannot compute the transitive closure; that needs a real `mvn dependency:tree`
-  via the FOSSA CLI in CI. That is fine here — every dependency is direct by
-  design, because an automated fix can only raise a version declared in a POM.
-- **No more `com.cascade:*` entries.** The old modules used to appear as
-  unanalyzable dependencies because they were unpublished first-party
-  artifacts. With one module there is nothing first-party left to resolve.
+The FOSSA GitHub App analyses this repository **statically**, reading `pom.xml`
+without running Maven. In that mode the only entry reported as **Direct** is the
+project's own artifact, `com.cascade:cascade`; everything it declares sits one
+level below and is reported as **Transitive**.
+
+That held true both as a three-module reactor and as a single module — in the
+reactor the sole Direct entry was `cascade-parent`, and after flattening it was
+`cascade`. It is a property of the analysis method, not of how the POM is
+written, so no amount of restructuring changes it.
+
+It matters because tools that raise upgrade pull requests generally only act on
+**direct** dependencies. Under static analysis, none of the 65 pins here
+qualify.
+
+**To get them classified correctly, analyse with Maven on PATH.** With a real
+`mvn` available the FOSSA CLI uses its `mavenplugin` / `treecmd` strategies,
+which build an actual dependency graph: the project's own dependencies are
+marked Direct, and their sub-dependencies appear as Transitive with paths back
+to a parent. `.github/workflows/fossa.yml` in this repository does exactly that
+— it needs a `FOSSA_API_KEY` repository secret and nothing else.
+
+Note that `mvn dependency:tree` only *resolves* dependencies; it does not
+compile. The workflow therefore works even though the Java here has never been
+built.
+
+Expect the dependency count to jump from 66 to several hundred once transitive
+resolution actually runs, with the 65 declared artifacts among the Direct ones.
 
 ### Advisories whose fix is a pre-release
 

@@ -1,0 +1,68 @@
+# Runs FOSSA through the CLI with Maven available.
+#
+# Why this exists: the FOSSA GitHub App analyses this repository statically, by
+# reading pom.xml without running Maven. In that mode the only dependency
+# reported as Direct is the project's own artifact (com.cascade:cascade) and
+# every dependency it declares is reported one level below it, as Transitive.
+# Tools that raise upgrade pull requests generally only act on direct
+# dependencies, which made all 65 pins here unreachable.
+#
+# With Maven on PATH the CLI uses its `mavenplugin` / `treecmd` strategies
+# instead, which build a real dependency graph: the project's own dependencies
+# are marked Direct, and their sub-dependencies appear as Transitive with paths.
+#
+# `mvn dependency:tree` only resolves dependencies -- it does not compile -- so
+# this works even though the Java in this repository has never been built.
+#
+# Setup: add a repository secret named FOSSA_API_KEY.
+
+name: FOSSA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      # Resolve the dependency tree up front. This is also the quickest way to
+      # see, in the Actions log, exactly what FOSSA will be handed.
+      - name: Resolve dependency tree
+        run: mvn -B -ntp dependency:tree -DoutputFile=dependency-tree.txt
+
+      - name: Show direct dependencies
+        run: |
+          echo "Direct dependencies Maven reports for com.cascade:cascade:"
+          grep -E '^\+- |^\\- ' dependency-tree.txt || true
+
+      - name: Install FOSSA CLI
+        run: |
+          curl -H 'Cache-Control: no-cache' -fsSL \
+            https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash
+          fossa --version
+
+      - name: FOSSA analyze
+        env:
+          FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+        run: fossa analyze --debug
+
+      - name: FOSSA test
+        env:
+          FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+        # Report policy failures without failing the build; this repository is a
+        # fixture whose dependencies are vulnerable on purpose.
+        continue-on-error: true
+        run: fossa test
